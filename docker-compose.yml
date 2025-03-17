@@ -1,16 +1,19 @@
-version: "3"
 services:
-  www:
+  whiteboard:
     volumes:
-      - /opt/app/server-data:/opt/app/server-data
-    ports:
-      - "80:80"
+      - ./wb-data:/opt/app/server-data
     build:
       context: .
     restart: on-failure
+    networks:
+      - cloudflared
     deploy:
       restart_policy:
         condition: on-failure
         delay: 5s
         max_attempts: 5
         window: 60s
+
+networks:
+  cloudflared:
+    external: true
